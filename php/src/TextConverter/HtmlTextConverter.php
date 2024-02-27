@@ -13,14 +13,7 @@ class HtmlTextConverter
 
     public function convertToHtml(): string
     {
-        $f = fopen($this->fullFileNameWithPath, 'r');
-
-        $lines = [];
-
-        while (($line = fgets($f)) !== false) {
-            $line = rtrim($line);
-            $lines[] = $line;
-        }
+        $lines = $this->linesFromPath($this->fullFileNameWithPath);
 
         $html = '';
         foreach ($lines as $line) {
@@ -34,5 +27,18 @@ class HtmlTextConverter
     public function getFileName(): string
     {
         return $this->fullFileNameWithPath;
+    }
+
+    private function linesFromPath(string $path): array
+    {
+        $f = fopen($path, 'r');
+
+        $lines = [];
+
+        while (($line = fgets($f)) !== false) {
+            $line = rtrim($line);
+            $lines[] = $line;
+        }
+        return $lines;
     }
 }
