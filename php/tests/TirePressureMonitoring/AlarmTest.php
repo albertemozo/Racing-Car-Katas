@@ -6,13 +6,14 @@ namespace Tests\TirePressureMonitoring;
 
 use PHPUnit\Framework\TestCase;
 use RacingCar\TirePressureMonitoring\Alarm;
+use RacingCar\TirePressureMonitoring\Sensor;
 
 class AlarmTest extends TestCase
 {
     /** @test */
     public function shouldBeOffByDefault(): void
     {
-        $alarm = new Alarm();
+        $alarm = new Alarm(new Sensor());
         $this->assertFalse($alarm->isAlarmOn());
     }
 
@@ -20,7 +21,7 @@ class AlarmTest extends TestCase
     public function shouldCheckPressure(): void
     {
         $this->expectNotToPerformAssertions();
-        $alarm = new Alarm();
+        $alarm = new Alarm(new Sensor());
         $alarm->check();
     }
 }
