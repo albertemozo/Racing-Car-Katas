@@ -17,76 +17,12 @@ class AlarmTest extends TestCase
         $this->assertFalse($alarm->isAlarmOn());
     }
 
-    /** @test */
-    public function shouldCheckPressure(): void
-    {
-        $this->expectNotToPerformAssertions();
-        $alarm = new Alarm(new RandomSensor());
-        $alarm->check();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldTurnOnOnLowPressure(): void
-    {
-        $sensor = new class extends RandomSensor {
-            public function popNextPressurePsiValue(): float
-            {
-                return 0;
-            }
-        };
-        $alarm = new Alarm($sensor);
-        $alarm->check();
-
-        $this->assertTrue($alarm->isAlarmOn());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldBeOffForPressuresBetweenThreshold(): void
-    {
-        $sensor = new class extends RandomSensor {
-            public function popNextPressurePsiValue(): float
-            {
-                return 20;
-            }
-        };
-        $alarm = new Alarm($sensor);
-        $alarm->check();
-
-        $this->assertFalse($alarm->isAlarmOn());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldTurnOnOnHighPressure(): void
-    {
-        $sensor = new class extends RandomSensor {
-            public function popNextPressurePsiValue(): float
-            {
-                return 100;
-            }
-        };
-        $alarm = new Alarm($sensor);
-        $alarm->check();
-
-        $this->assertTrue($alarm->isAlarmOn());
-    }
-
     /**
      * @dataProvider data
      */
     public function shouldCheckThePressure(float $pressure, bool $result): void
     {
-        $sensor = new class extends RandomSensor {
-            public function popNextPressurePsiValue(): float
-            {
-                return 100;
-            }
-        };
+        $sensor = new DeterministicSensor($pressure);
         $alarm = new Alarm($sensor);
         $alarm->check();
 
@@ -96,7 +32,9 @@ class AlarmTest extends TestCase
     public function data(): array
     {
         return [
-            [0, true]
+            [0, true],
+            [20, false],
+            [100, true]
         ];
     }
 }
