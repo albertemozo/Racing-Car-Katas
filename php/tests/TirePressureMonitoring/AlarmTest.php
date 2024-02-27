@@ -24,4 +24,21 @@ class AlarmTest extends TestCase
         $alarm = new Alarm(new Sensor());
         $alarm->check();
     }
+
+    /**
+     * @test
+     */
+    public function shouldTurnOnOnLowPressure(): void
+    {
+        $sensor = new class extends Sensor {
+            public function popNextPressurePsiValue(): float
+            {
+                return 0;
+            }
+        };
+        $alarm = new Alarm($sensor);
+        $alarm->check();
+
+        $this->assertTrue($alarm->isAlarmOn());
+    }
 }
