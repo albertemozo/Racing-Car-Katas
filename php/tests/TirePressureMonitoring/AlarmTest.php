@@ -58,4 +58,21 @@ class AlarmTest extends TestCase
 
         $this->assertFalse($alarm->isAlarmOn());
     }
+
+    /**
+     * @test
+     */
+    public function shouldTurnOnOnHighPressure(): void
+    {
+        $sensor = new class extends Sensor {
+            public function popNextPressurePsiValue(): float
+            {
+                return 100;
+            }
+        };
+        $alarm = new Alarm($sensor);
+        $alarm->check();
+
+        $this->assertTrue($alarm->isAlarmOn());
+    }
 }
