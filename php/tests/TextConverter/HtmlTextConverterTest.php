@@ -18,18 +18,6 @@ class HtmlTextConverterTest extends TestCase
     /**
      * @test
      */
-    public function shouldConvertAFile(): void
-    {
-        $this->expectNotToPerformAssertions();
-        $file = tempnam(sys_get_temp_dir(), 'test');
-        $path = realpath($file);
-        $converter = new HtmlTextConverter($path);
-        $converter->convertToHtml();
-    }
-
-    /**
-     * @test
-     */
     public function shouldBeEmptyWhenTheSourceFileIsEmpty(): void
     {
         $file = tempnam(sys_get_temp_dir(), 'test');
