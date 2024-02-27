@@ -12,6 +12,6 @@ class HtmlTextConverterTest extends TestCase
     public function testFoo(): void
     {
         $converter = new HtmlTextConverter('foo');
-        $this->assertSame('fixme', $converter->getFileName());
+        $this->assertSame('foo', $converter->getFileName());
     }
 }
