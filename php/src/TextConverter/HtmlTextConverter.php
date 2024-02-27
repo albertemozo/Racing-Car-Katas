@@ -15,12 +15,19 @@ class HtmlTextConverter
     {
         $f = fopen($this->fullFileNameWithPath, 'r');
 
-        $html = '';
+        $lines = [];
+
         while (($line = fgets($f)) !== false) {
             $line = rtrim($line);
+            $lines[] = $line;
+        }
+
+        $html = '';
+        foreach ($lines as $line) {
             $html .= htmlspecialchars($line, ENT_QUOTES | ENT_HTML5);
             $html .= '<br />';
         }
+
         return $html;
     }
 

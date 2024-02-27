@@ -26,4 +26,17 @@ class HtmlTextConverterTest extends TestCase
         $result = $converter->convertToHtml();
         $this->assertEmpty($result);
     }
+
+    /**
+     * @test
+     */
+    public function shouldConvertTextToHtml(): void
+    {
+        $file = tempnam(sys_get_temp_dir(), 'test');
+        file_put_contents($file, "Hello World <3");
+        $path = realpath($file);
+        $converter = new HtmlTextConverter($path);
+        $result = $converter->convertToHtml();
+        $this->assertEquals($result, 'Hello World &lt;3<br />');
+    }
 }
