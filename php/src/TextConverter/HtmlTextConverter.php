@@ -7,15 +7,17 @@ namespace RacingCar\TextConverter;
 class HtmlTextConverter
 {
     public function __construct(
-        private string $fullFileNameWithPath
+        private string $fullFileNameWithPath,
+        private PathReader $pathReader,
+        private HtmlTransformer $htmlTransformer
     ) {
     }
 
     public function convertToHtml(): string
     {
-        $lines = $this->linesFromPath($this->fullFileNameWithPath);
+        $lines = $this->pathReader->linesFromPath($this->fullFileNameWithPath);
 
-        return $this->htmlFromLines($lines);
+        return $this->htmlTransformer->htmlFromLines($lines);
     }
 
     public function getFileName(): string
@@ -23,27 +25,4 @@ class HtmlTextConverter
         return $this->fullFileNameWithPath;
     }
 
-    private function linesFromPath(string $path): array
-    {
-        $f = fopen($path, 'r');
-
-        $lines = [];
-
-        while (($line = fgets($f)) !== false) {
-            $line = rtrim($line);
-            $lines[] = $line;
-        }
-        return $lines;
-    }
-
-    private function htmlFromLines(array $lines): string
-    {
-        $html = '';
-        foreach ($lines as $line) {
-            $html .= htmlspecialchars($line, ENT_QUOTES | ENT_HTML5);
-            $html .= '<br />';
-        }
-
-        return $html;
-    }
 }
