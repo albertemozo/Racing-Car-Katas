@@ -14,4 +14,28 @@ class HtmlTextConverterTest extends TestCase
         $converter = new HtmlTextConverter('foo');
         $this->assertSame('foo', $converter->getFileName());
     }
+
+    /**
+     * @test
+     */
+    public function shouldConvertAFile(): void
+    {
+        $this->expectNotToPerformAssertions();
+        $file = tempnam(sys_get_temp_dir(), 'test');
+        $path = realpath($file);
+        $converter = new HtmlTextConverter($path);
+        $converter->convertToHtml();
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeEmptyWhenTheSourceFileIsEmpty(): void
+    {
+        $file = tempnam(sys_get_temp_dir(), 'test');
+        $path = realpath($file);
+        $converter = new HtmlTextConverter($path);
+        $result = $converter->convertToHtml();
+        $this->assertEmpty($result);
+    }
 }
