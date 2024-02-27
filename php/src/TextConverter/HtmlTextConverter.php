@@ -15,13 +15,7 @@ class HtmlTextConverter
     {
         $lines = $this->linesFromPath($this->fullFileNameWithPath);
 
-        $html = '';
-        foreach ($lines as $line) {
-            $html .= htmlspecialchars($line, ENT_QUOTES | ENT_HTML5);
-            $html .= '<br />';
-        }
-
-        return $html;
+        return $this->htmlFromLines($lines);
     }
 
     public function getFileName(): string
@@ -40,5 +34,16 @@ class HtmlTextConverter
             $lines[] = $line;
         }
         return $lines;
+    }
+
+    private function htmlFromLines(array $lines): string
+    {
+        $html = '';
+        foreach ($lines as $line) {
+            $html .= htmlspecialchars($line, ENT_QUOTES | ENT_HTML5);
+            $html .= '<br />';
+        }
+
+        return $html;
     }
 }
