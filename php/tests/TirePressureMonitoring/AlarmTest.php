@@ -15,4 +15,12 @@ class AlarmTest extends TestCase
         $alarm = new Alarm();
         $this->assertFalse($alarm->isAlarmOn());
     }
+
+    /** @test */
+    public function shouldCheckPressure(): void
+    {
+        $this->expectNotToPerformAssertions();
+        $alarm = new Alarm();
+        $alarm->check();
+    }
 }
