@@ -41,4 +41,21 @@ class AlarmTest extends TestCase
 
         $this->assertTrue($alarm->isAlarmOn());
     }
+
+    /**
+     * @test
+     */
+    public function shouldBeOffForPressuresBetweenThreshold(): void
+    {
+        $sensor = new class extends Sensor {
+            public function popNextPressurePsiValue(): float
+            {
+                return 20;
+            }
+        };
+        $alarm = new Alarm($sensor);
+        $alarm->check();
+
+        $this->assertFalse($alarm->isAlarmOn());
+    }
 }
