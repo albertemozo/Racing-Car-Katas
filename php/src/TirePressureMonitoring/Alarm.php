@@ -10,11 +10,11 @@ class Alarm
 
     private const HIGH_PRESSURE_THRESHOLD = 21;
 
-    private Sensor $sensor;
+    private RandomSensor $sensor;
 
     private bool $isAlarmOn = false;
 
-    public function __construct(Sensor $sensor)
+    public function __construct(RandomSensor $sensor)
     {
         $this->sensor = $sensor;
     }
